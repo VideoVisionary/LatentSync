@@ -1,0 +1,7 @@
+LICENSE
+README.md
+setup.py
+LatentSync.egg-info/PKG-INFO
+LatentSync.egg-info/SOURCES.txt
+LatentSync.egg-info/dependency_links.txt
+LatentSync.egg-info/top_level.txt

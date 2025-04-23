@@ -11,6 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import argparse
 import os
@@ -24,6 +27,7 @@ from latentsync.whisper.audio2feature import Audio2Feature
 
 
 def main(config, args):
+    print(config,args)
     if not os.path.exists(args.video_path):
         raise RuntimeError(f"Video path '{args.video_path}' not found")
     if not os.path.exists(args.audio_path):
@@ -37,12 +41,12 @@ def main(config, args):
     print(f"Input audio path: {args.audio_path}")
     print(f"Loaded checkpoint path: {args.inference_ckpt_path}")
 
-    scheduler = DDIMScheduler.from_pretrained("configs")
+    scheduler = DDIMScheduler.from_pretrained('./LatentSync/configs')
 
     if config.model.cross_attention_dim == 768:
-        whisper_model_path = "checkpoints/whisper/small.pt"
+        whisper_model_path = "./LatentSync/checkpoints/whisper/small.pt"
     elif config.model.cross_attention_dim == 384:
-        whisper_model_path = "checkpoints/whisper/tiny.pt"
+        whisper_model_path = "./LatentSync/checkpoints/whisper/tiny.pt"
     else:
         raise NotImplementedError("cross_attention_dim must be 768 or 384")
 
@@ -78,7 +82,7 @@ def main(config, args):
         torch.seed()
 
     print(f"Initial seed: {torch.initial_seed()}")
-
+    print(f"args {args.video_path}")
     pipeline(
         video_path=args.video_path,
         audio_path=args.audio_path,
